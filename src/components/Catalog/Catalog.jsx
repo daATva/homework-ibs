@@ -1,40 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/productsSlice";
 import ProductCard from "../ProductCard/ProductCard";
-import { fetchItems } from "../../api/api";
 
 const Catalog = ({ searchTerm, onSelectProduct }) => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { items, loading, error } = useSelector((state) => state.products);
 
   useEffect(() => {
-    fetchItems()
-      .then((data) => {
-        if (data.content && Array.isArray(data.content)) {
-          setProducts(data.content);
-          setFilteredProducts(data.content);
-        } else {
-          setError("Некорректные данные от сервера");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (searchTerm) {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts(products);
-    }
-  }, [searchTerm, products]);
+  const filteredProducts = items.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return <div>Загрузка товаров...</div>;

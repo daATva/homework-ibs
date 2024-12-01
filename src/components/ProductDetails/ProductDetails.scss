@@ -123,7 +123,6 @@
       background: #e97f03;
       margin-left: 27px;
       border: 0;
-
       &:hover {
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
       }
@@ -207,6 +206,7 @@
   .product__cart {
     order: 4;
     margin-left: 14px;
+    margin-top: 15px;
   }
 
   .product__preview img {
