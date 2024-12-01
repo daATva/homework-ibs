@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cartImage from "../../assets/cart.svg";
 import userImage from "../../assets/user.svg";
 import "./Header.scss";
+import useDebounce from "../../hooks/debounce"; // Импортируем хук
+
 const Header = ({ onSearch }) => {
+  const [inputValue, setInputValue] = useState("");
+
+  // Вызываем хук useDebounce с задержкой в 500 мс
+  const debouncedValue = useDebounce(inputValue, 500);
+
+  // Вызываем onSearch только при изменении debouncedValue
+  useEffect(() => {
+    if (debouncedValue.trim() === "") {
+      onSearch("");
+    } else {
+      onSearch(debouncedValue);
+    }
+  }, [debouncedValue, onSearch]);
+
   const handleInput = (event) => {
-    onSearch(event.target.value); // Обновляем поисковый запрос
+    setInputValue(event.target.value); // Обновляем inputValue
   };
 
   return (
@@ -27,7 +43,7 @@ const Header = ({ onSearch }) => {
           id="headerInput"
           type="text"
           placeholder="Search products"
-          onInput={handleInput} // Отслеживаем изменение значения ввода
+          onChange={handleInput} // Изменяем только inputValue
         />
       </div>
       <div className="item__box">

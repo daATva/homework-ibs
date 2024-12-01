@@ -1,52 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import favoriteImage from "../../assets/favorite.svg";
 import favoriteBorder from "../../assets/favorite border.svg";
 import productImage from "../../assets/prod.png";
 
-const ProductCard = ({ product, onSelectProduct }) => {
+const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   const [isFavorite, setIsFavorite] = useState(product.like);
 
-  useEffect(() => {
-    // Сохраняем состояние избранных товаров в localStorage
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (isFavorite) {
-      if (!savedFavorites.some((fav) => fav.id === product.id)) {
-        localStorage.setItem(
-          "favorites",
-          JSON.stringify([...savedFavorites, product])
-        );
-      }
-    } else {
-      const newFavorites = savedFavorites.filter(
-        (fav) => fav.id !== product.id
-      );
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    }
-  }, [isFavorite, product]);
+  const handleSelectProduct = () => {
+    navigate(`/product/${product.id}`);
+  };
 
   const toggleFavorite = (e) => {
-    e.stopPropagation(); // Останавливаем всплытие события клика
-    setIsFavorite((prev) => !prev); // Меняем состояние
+    e.stopPropagation();
+    setIsFavorite((prev) => !prev);
   };
 
   return (
-    <div className="catalog__item" onClick={() => onSelectProduct(product)}>
+    <div className="catalog__item" onClick={handleSelectProduct}>
       <div className="item__group">
-        <div
-          className={`item__favorite ${isFavorite ? "favorite-active" : ""}`}
-          onClick={toggleFavorite}
-        >
+        <div className="item__favorite" onClick={toggleFavorite}>
           <img
-            src={isFavorite ? favoriteBorder : favoriteImage}
+            src={isFavorite ? favoriteImage : favoriteBorder}
             alt="Favorite"
           />
         </div>
         <div className="item__image">
-          <img
-            src={productImage}
-            alt={product.picture?.alt || product.name}
-            className="item__min"
-          />
+          <img src={productImage} alt={product.name} className="item__min" />
         </div>
         <div className="item__title">{product.name}</div>
         <div className="item__price">
