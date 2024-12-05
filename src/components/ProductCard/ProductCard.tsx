@@ -2,13 +2,23 @@ import React, { useState, useEffect } from "react";
 import favoriteImage from "../../assets/favorite.svg";
 import favoriteBorder from "../../assets/favorite border.svg";
 import productImage from "../../assets/prod.png";
+import { Product } from "../../pages/Main/Main";
 
-const ProductCard = ({ product, onSelectProduct }) => {
-  const [isFavorite, setIsFavorite] = useState(product.like);
+interface ProductCardProps {
+  product: Product;
+  onSelectProduct: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onSelectProduct,
+}) => {
+  const [isFavorite, setIsFavorite] = useState<boolean>(product.like);
 
   useEffect(() => {
-    // Сохраняем состояние избранных товаров в localStorage
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const savedFavorites: Product[] = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
     if (isFavorite) {
       if (!savedFavorites.some((fav) => fav.id === product.id)) {
         localStorage.setItem(
@@ -24,9 +34,9 @@ const ProductCard = ({ product, onSelectProduct }) => {
     }
   }, [isFavorite, product]);
 
-  const toggleFavorite = (e) => {
-    e.stopPropagation(); // Останавливаем всплытие события клика
-    setIsFavorite((prev) => !prev); // Меняем состояние
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFavorite((prev) => !prev);
   };
 
   return (
