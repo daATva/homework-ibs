@@ -1,13 +1,3 @@
-body {
-  margin: 0;
-  font-family: "Roboto", sans-serif;
-  box-sizing: border-box;
-
-  * {
-    transition: 0.2s;
-  }
-}
-
 .product__content {
   display: flex;
   margin: 0 24px;
@@ -131,9 +121,8 @@ body {
       color: white;
       border-radius: 10px;
       background: #e97f03;
-      margin: 0 0 0 27px;
+      margin-left: 27px;
       border: 0;
-
       &:hover {
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
       }
@@ -185,7 +174,7 @@ body {
     }
 
     .item__favorite {
-      padding: 11px 10px 11px 27px;
+      padding: 11px 10px 11px 67px;
     }
   }
 }
@@ -216,6 +205,10 @@ body {
 
   .product__content .product__buy .product__cart {
     order: 4;
+<<<<<<< HEAD
+=======
+    margin-left: 14px;
+>>>>>>> cb70d020c874d6fd149798245fd627af023e17d5
     margin-top: 15px;
   }
 
