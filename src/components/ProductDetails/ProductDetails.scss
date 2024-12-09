@@ -203,13 +203,16 @@
     margin-top: 16px;
   }
 
-  .product__cart {
+  .product__content .product__buy .product__cart {
     order: 4;
+<<<<<<< HEAD
+=======
     margin-left: 14px;
+>>>>>>> cb70d020c874d6fd149798245fd627af023e17d5
     margin-top: 15px;
   }
 
-  .product__preview img {
+  .product__content .product__preview img {
     align-self: center;
     width: 42%;
   }
